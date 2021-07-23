@@ -1,0 +1,9 @@
+server:
+  name: go-portfolio-service
+  port: 8080
+
+mongoDb:
+  uri: 'mongodb+srv://admin:qnkpGwJ3kFV8rM7E@cluster0.f3fj6.mongodb.net'
+  database: portfolio
+  maxpool: 2
+  minpool: 1
