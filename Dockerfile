@@ -1,15 +1,6 @@
-FROM golang:1.12.17
-RUN go version
-
-ADD . /go/src/app
-WORKDIR /go/src/app
-
-# Expose 8080
-# Gin will use the PORT env var
-ENV PORT 8080
-EXPOSE 8080
-
-# Compile app
+FROM golang:1.15.6
+RUN mkdir /app
+ADD . /app
+WORKDIR /app
 RUN go build -o main .
-# Run app
-CMD ["/go/src/app/main"]
+CMD ["/app/main"]
