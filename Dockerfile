@@ -1,6 +1,15 @@
-FROM golang:1.15.6
-RUN mkdir /app
-ADD . /app
+FROM golang:1.16-alpine
+
 WORKDIR /app
-RUN go build .
-CMD ["/app/main"]
+
+COPY go.mod ./
+COPY go.sum ./
+RUN go mod download
+
+COPY *.go ./
+
+RUN go build -o /go-portfolio-service
+
+EXPOSE 8080
+
+CMD [ "/go-portfolio-service" ]
