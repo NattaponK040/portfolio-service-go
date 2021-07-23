@@ -1,9 +1,15 @@
-FROM golang:1.16
+FROM golang:alpine
+RUN go version
 
-WORKDIR /go-portfolio-service
-COPY . .
+ADD . /go/src/app
+WORKDIR /go/src/app
 
-RUN go get -d -v ./...
-RUN go install -v ./...
+# Expose 8080
+# Gin will use the PORT env var
+ENV PORT 8080
+EXPOSE 8080
 
-CMD ["go-portfolio-service"]
+# Compile app
+RUN go build -o main .
+# Run app
+CMD ["/go/src/app/main"]
