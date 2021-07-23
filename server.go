@@ -7,7 +7,6 @@ import (
 	"go-portfolio-service/context"
 	"go-portfolio-service/controller"
 	"go-portfolio-service/repository"
-	"go-portfolio-service/router"
 	"go-portfolio-service/service"
 )
 
@@ -27,8 +26,15 @@ func main() {
 	_cache := cache.NewCache(mongo.TemplateCollection)
 	_cache.Init()
 	control := controller.NewTemplateController(_cache)
-	r := router.NewRoutes(server.Serv, mongo)
 	cOut := service.NewCheckOut()
-	r.InitRoute(control,cOut)
+
+	server.Serv.POST("/getTemplate/id", control.GetTemplateID)
+	server.Serv.POST("/getTemplate/new", control.GetNewTemplates)
+	server.Serv.POST("/getTemplate/color", control.GetTemplateByColors)
+	server.Serv.POST("/getTemplate/theme", control.GetTemplateByTheme)
+	server.Serv.POST("/getTemplate/all", control.GetAllTemplate)
+	server.Serv.POST("/getTemplate/recommend", control.GetRecommendTemplate)
+	server.Serv.POST("/user/checkout/alert", cOut.Checkout)
+
 	logrus.Fatal(server.Serv.Start(server.GetPort()))
 }
